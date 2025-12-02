@@ -60,6 +60,7 @@ mock-build-all:
     just mock-build hyprland-protocols
     just mock-build hypridle
     just mock-build hyprcursor
+    just mock-build hyprsunset
 
 # Clean artifacts directory
 clean:
