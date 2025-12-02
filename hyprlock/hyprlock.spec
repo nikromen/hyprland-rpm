@@ -54,7 +54,7 @@ utility.
 %doc README.md
 %{_bindir}/hyprlock
 %config(noreplace) %{_sysconfdir}/pam.d/hyprlock
-%{_datadir}/hypr/hyprlock.conf
+%config(noreplace) %{_datadir}/hypr/hyprlock.conf
 
 
 %changelog

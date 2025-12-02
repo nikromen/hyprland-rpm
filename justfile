@@ -57,6 +57,8 @@ mock-build-all:
     just mock-build aquamarine
     just mock-build hyprgraphics
     just mock-build hyprlock
+    just mock-build hyprland-protocols
+    just mock-build hypridle
 
 # Clean artifacts directory
 clean:
