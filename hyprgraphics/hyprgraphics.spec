@@ -43,7 +43,7 @@ Requires:       hyprutils-devel
 Requires:       libjpeg-devel
 Requires:       libpng-devel
 Requires:       libwebp-devel
-Requires:       pangocairo-devel
+Requires:       pango-devel
 Requires:       pixman-devel
 
 
