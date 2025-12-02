@@ -1,0 +1,61 @@
+packages:
+  hyprwayland-scanner:
+    specfile_path: hyprwayland-scanner.spec
+    paths:
+      - hyprwayland-scanner
+
+  hyprutils:
+    specfile_path: hyprutils.spec
+    paths:
+      - hyprutils
+
+  hyprlang:
+    specfile_path: hyprlang.spec
+    paths:
+      - hyprlang
+    actions:
+      post-upstream-clone:
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprutils `git rev-parse --short HEAD`"
+
+  hyprgraphics:
+    specfile_path: hyprgraphics.spec
+    paths:
+      - hyprgraphics
+    actions:
+      post-upstream-clone:
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprutils `git rev-parse --short HEAD`"
+
+  aquamarine:
+    specfile_path: aquamarine.spec
+    paths:
+      - aquamarine
+    actions:
+      post-upstream-clone:
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprutils `git rev-parse --short HEAD`"
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprwayland-scanner `git rev-parse --short HEAD`"
+
+  hyprlock:
+    specfile_path: hyprlock.spec
+    paths:
+      - hyprlock
+    actions:
+      post-upstream-clone:
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprutils `git rev-parse --short HEAD`"
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprlang `git rev-parse --short HEAD`"
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprgraphics `git rev-parse --short HEAD`"
+        - sh -c "wait-for-copr --owner $COPR_OWNER --project $COPR_PROJECT hyprwayland-scanner `git rev-parse --short HEAD`"
+
+srpm_build_deps:
+  - wait-for-copr
+
+targets:
+  - fedora-43-x86_64
+  - fedora-43-aarch64
+  - fedora-rawhide-x86_64
+  - fedora-rawhide-aarch64
+
+jobs:
+  - job: copr_build
+    trigger: commit
+    owner: nikromen
+    project: hyprland
