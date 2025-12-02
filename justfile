@@ -61,6 +61,7 @@ mock-build-all:
     just mock-build hypridle
     just mock-build hyprcursor
     just mock-build hyprsunset
+    just mock-build xdg-desktop-portal-hyprland
 
 # Clean artifacts directory
 clean:
