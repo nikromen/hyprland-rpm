@@ -1,5 +1,5 @@
 builder_image := "hyprland-builder"
-target := "fedora-rawhide-x86_64"
+target := "fedora-43-x86_64"
 artifacts_dir := "artifacts"
 
 default:
@@ -63,6 +63,10 @@ mock-build-all:
     just mock-build hyprsunset
     just mock-build xdg-desktop-portal-hyprland
     just mock-build hyprpicker
+    just mock-build glaze
+    just mock-build hyprland
+    # unrelated packages, but I use them
+    just mock-build awwww
 
 # Clean artifacts directory
 clean:
