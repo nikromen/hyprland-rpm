@@ -13,8 +13,8 @@ Source0:        %{forgesource}
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  git-core
+BuildRequires:  glaze-static
 BuildRequires:  systemd-rpm-macros
-BuildRequires:  cmake(glaze)
 BuildRequires:  pkgconfig(aquamarine)
 BuildRequires:  pkgconfig(cairo)
 BuildRequires:  pkgconfig(egl)
@@ -89,18 +89,45 @@ The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 
+%package        uwsm
+Summary:        UWSM (Universal Wayland Session Manager) integration for Hyprland
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       uwsm
+
+%description    uwsm
+This package provides UWSM (Universal Wayland Session Manager) integration
+for Hyprland, allowing better session management and compatibility with
+modern desktop environments.
+
+
 %prep
 %forgeautosetup -p1
 
+# Create a minimal pkg-config file for udis86 since Fedora doesn't ship one
+cat > udis86.pc << 'EOF'
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib64
+includedir=${prefix}/include
+
+Name: udis86
+Description: Disassembler Library for x86 and x86-64
+Version: 1.7.2
+Libs: -L${libdir} -ludis86
+Cflags: -I${includedir}
+EOF
+
 
 %build
+export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DNO_SYSTEMD=OFF \
     -DNO_XWAYLAND=OFF \
-    -DNO_UWSM=ON \
+    -DNO_UWSM=OFF \
     -DNO_HYPRPM=OFF \
-    -DBUILD_TESTING=ON
+    -DUSE_SYSTEM_UDIS86=ON \
+    -DBUILD_TESTING=OFF
 %cmake_build
 
 
@@ -129,10 +156,14 @@ developing applications that use %{name}.
 %{_datadir}/zsh/site-functions/_hyprctl
 %{_datadir}/zsh/site-functions/_hyprpm
 %{_mandir}/man1/[Hh]yprland.1*
+%{_mandir}/man1/hyprctl.1*
 
 %files devel
 %{_includedir}/hyprland/
 %{_datadir}/pkgconfig/hyprland.pc
+
+%files uwsm
+%{_datadir}/wayland-sessions/hyprland-uwsm.desktop
 
 
 %changelog
