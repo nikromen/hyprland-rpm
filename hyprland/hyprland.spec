@@ -3,7 +3,7 @@ Version:        0.52.2
 %forgemeta
 
 Name:           hyprland
-Release:        %autorelease
+Release:        %autorelease -p
 Summary:        Hyprland is an independent, highly customizable, dynamic tiling Wayland compositor that doesn't sacrifice on its looks
 
 License:        BSD-3-Clause
