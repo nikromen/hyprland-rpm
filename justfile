@@ -65,6 +65,7 @@ mock-build-all:
     just mock-build hyprpicker
     just mock-build glaze
     just mock-build hyprland
+    just mock-build hyprpolkitagent
     # unrelated packages, but I use them
     just mock-build awwww
 
