@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/Hyprland
-Version:        0.52.1
+Version:        0.52.2
 %forgemeta
 
 Name:           hyprland
@@ -52,6 +52,15 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  udis86-devel
 
 Requires:       xorg-x11-server-Xwayland%{?_isa}
+# hyprpm deps TODO: separate package, or keep it as is and
+# leave deps to the user?
+Requires:       cmake
+Requires:       meson
+Requires:       cpio
+Requires:       pkg-config
+Requires:       git-core
+Requires:       g++
+Requires:       gcc
 
 Recommends:     polkit
 
