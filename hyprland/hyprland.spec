@@ -52,22 +52,11 @@ BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  udis86-devel
 
 Requires:       xorg-x11-server-Xwayland%{?_isa}
-# hyprpm deps TODO: separate package, or keep it as is and
-# leave deps to the user?
-Requires:       cmake
-Requires:       meson
-Requires:       cpio
-Requires:       pkg-config
-Requires:       git-core
-Requires:       g++
-Requires:       gcc
 
 Recommends:     polkit
-
 # In default configuration, kitty is used as terminal. The rest
 # can be configured and installed from that terminal.
 Recommends:     kitty
-
 
 # https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
 ExcludeArch:    %{ix86}
@@ -107,6 +96,25 @@ Requires:       uwsm
 This package provides UWSM (Universal Wayland Session Manager) integration
 for Hyprland, allowing better session management and compatibility with
 modern desktop environments.
+
+
+%package        hyprpm
+Summary:        Hyprland plugin manager
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+Requires:       cmake
+Requires:       meson
+Requires:       cpio
+Requires:       pkgconfig
+Requires:       git-core
+Requires:       gcc-c++
+Requires:       gcc
+Requires:       mesa-libGLES-devel
+
+%description    hyprpm
+Hyprland plugin manager (hyprpm) allows you to download, build, and install
+plugins for Hyprland at runtime. This subpackage contains the hyprpm binary
+and all necessary build dependencies for compiling Hyprland plugins.
 
 
 %prep
@@ -153,17 +161,13 @@ export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 %doc README.md
 %{_bindir}/[Hh]yprland
 %{_bindir}/hyprctl
-%{_bindir}/hyprpm
 %config(noreplace) %{_datadir}/hypr/hyprland.conf
 %{_datadir}/bash-completion/completions/hyprctl
-%{_datadir}/bash-completion/completions/hyprpm
 %{_datadir}/fish/vendor_completions.d/hyprctl.fish
-%{_datadir}/fish/vendor_completions.d/hyprpm.fish
 %{_datadir}/hypr/
 %{_datadir}/wayland-sessions/hyprland.desktop
 %{_datadir}/xdg-desktop-portal/hyprland-portals.conf
 %{_datadir}/zsh/site-functions/_hyprctl
-%{_datadir}/zsh/site-functions/_hyprpm
 %{_mandir}/man1/[Hh]yprland.1*
 %{_mandir}/man1/hyprctl.1*
 
@@ -173,6 +177,12 @@ export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 
 %files uwsm
 %{_datadir}/wayland-sessions/hyprland-uwsm.desktop
+
+%files hyprpm
+%{_bindir}/hyprpm
+%{_datadir}/bash-completion/completions/hyprpm
+%{_datadir}/fish/vendor_completions.d/hyprpm.fish
+%{_datadir}/zsh/site-functions/_hyprpm
 
 
 %changelog
