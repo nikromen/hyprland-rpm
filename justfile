@@ -106,7 +106,6 @@ check-versions:
             continue
         fi
 
-        # Scrape GitHub releases page (no API, no rate limit)
         LATEST_VER=$(curl -sL "$UPSTREAM_URL/releases" | grep -m1 'href.*releases/tag' | grep -oP 'releases/tag/v?\K[0-9.]+' | head -1)
 
         if [ -z "$LATEST_VER" ]; then
