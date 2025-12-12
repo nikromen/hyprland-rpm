@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprutils
-Version:        0.10.4
+Version:        0.11.0
 %forgemeta
 
 Name:           hyprutils
