@@ -48,26 +48,15 @@ mock-build package:
 
     @ls {{artifacts_dir}}/{{package}}/*.rpm >/dev/null 2>&1 || (echo "No RPMs found, build failed." && exit 1)
 
+# Package build order (ORDER MATTERS! Some packages depend on others)
+packages := "hyprutils hyprlang hyprwayland-scanner aquamarine hyprgraphics hyprlock hyprland-protocols hyprtoolkit hyprland-guiutils hypridle hyprcursor hyprsunset xdg-desktop-portal-hyprland hyprpicker glaze hyprland hyprpolkitagent awww"
+
 # Build the entire ecosystem in the correct order
 mock-build-all:
-    # ORDER MATTERS! Some packages depend on others
-    just mock-build hyprutils
-    just mock-build hyprlang
-    just mock-build hyprwayland-scanner
-    just mock-build aquamarine
-    just mock-build hyprgraphics
-    just mock-build hyprlock
-    just mock-build hyprland-protocols
-    just mock-build hypridle
-    just mock-build hyprcursor
-    just mock-build hyprsunset
-    just mock-build xdg-desktop-portal-hyprland
-    just mock-build hyprpicker
-    just mock-build glaze
-    just mock-build hyprland
-    just mock-build hyprpolkitagent
-    # unrelated packages, but I use them
-    just mock-build awwww
+    #!/usr/bin/env bash
+    for pkg in {{packages}}; do
+        just mock-build "$pkg"
+    done
 
 # Clean artifacts directory
 clean:
@@ -76,3 +65,62 @@ clean:
 # Open a shell in the builder container
 shell:
     podman run --rm --privileged --userns=keep-id --security-opt label=disable -it -v {{justfile_directory()}}:/src {{builder_image}} bash
+
+# Rebuild single package in Copr
+copr-build package:
+    copr build-package nikromen/hyprland --name {{package}}
+
+# Rebuild multiple packages in Copr sequentially
+copr-build-batch +PACKAGES:
+    #!/usr/bin/env bash
+    set -e
+    PREV_ID=""
+    for pkg in {{PACKAGES}}; do
+        if [ -z "$PREV_ID" ]; then
+            OUTPUT=$(copr build-package nikromen/hyprland --name "$pkg" --nowait)
+        else
+            OUTPUT=$(copr build-package nikromen/hyprland --name "$pkg" --nowait --after-build-id "$PREV_ID")
+        fi
+        PREV_ID=$(echo "$OUTPUT" | grep -oP 'Created builds: \K\d+')
+        echo "Queued $pkg (build ID: $PREV_ID)"
+    done
+    echo "All builds queued. Monitor at: https://copr.fedorainfracloud.org/coprs/nikromen/hyprland/builds/"
+
+# Rebuild all packages in Copr in correct dependency order
+copr-build-all:
+    just copr-build-batch {{packages}}
+
+# Check for outdated packages (compares upstream tags with spec versions)
+check-versions:
+    #!/usr/bin/env bash
+    echo "Checking package versions..."
+    echo ""
+    for pkg in {{packages}}; do
+        SPEC="$pkg/$pkg.spec"
+        [ ! -f "$SPEC" ] && continue
+
+        SPEC_VER=$(grep -m1 '^Version:' "$SPEC" | awk '{print $2}')
+        UPSTREAM_URL=$(grep -m1 '^%global forgeurl' "$SPEC" | awk '{print $3}')
+        if [ -z "$UPSTREAM_URL" ]; then
+            echo "$pkg: no forgeurl found"
+            continue
+        fi
+
+        # Scrape GitHub releases page (no API, no rate limit)
+        LATEST_VER=$(curl -sL "$UPSTREAM_URL/releases" | grep -m1 'href.*releases/tag' | grep -oP 'releases/tag/v?\K[0-9.]+' | head -1)
+
+        if [ -z "$LATEST_VER" ]; then
+            LATEST_VER=$(curl -sL "$UPSTREAM_URL/tags" | grep -m1 'href.*releases/tag' | grep -oP 'releases/tag/v?\K[0-9.]+' | head -1)
+        fi
+
+        if [ -z "$LATEST_VER" ]; then
+            echo "$pkg: could not fetch upstream version"
+            continue
+        fi
+
+        if [ "$SPEC_VER" != "$LATEST_VER" ]; then
+            echo "$pkg: $SPEC_VER -> $LATEST_VER (UPDATE AVAILABLE)"
+        else
+            echo "$pkg: $SPEC_VER (up to date)"
+        fi
+    done
