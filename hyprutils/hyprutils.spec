@@ -51,7 +51,7 @@ developing applications that use %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libhyprutils.so.9
+%{_libdir}/libhyprutils.so.10
 %{_libdir}/libhyprutils.so.%{version}
 
 
