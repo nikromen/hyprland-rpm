@@ -52,6 +52,7 @@ BuildRequires:  pkgconfig(xcursor)
 BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  udis86-devel
 
+Requires:       hyprland-guiutils
 Requires:       xorg-x11-server-Xwayland%{?_isa}
 
 Recommends:     polkit
