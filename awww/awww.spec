@@ -19,8 +19,6 @@ BuildRequires:  pkgconfig(liblz4)
 BuildRequires:  pkgconfig(wayland-client)
 BuildRequires:  pkgconfig(wayland-protocols)
 
-Requires:       wayland-protocols
-
 # https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
 ExcludeArch:    %{ix86}
 
