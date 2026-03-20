@@ -1,0 +1,11 @@
+diff --git a/src/palette/ConfigManager.cpp b/src/palette/ConfigManager.cpp
+index 1111111..2222222 100644
+--- a/src/palette/ConfigManager.cpp
++++ b/src/palette/ConfigManager.cpp
+@@ -1,5 +1,6 @@
+ #include "ConfigManager.hpp"
+
++#include <climits>
+ #include <hyprutils/path/Path.hpp>
+
+ #include "../core/InternalBackend.hpp"

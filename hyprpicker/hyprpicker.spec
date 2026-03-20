@@ -10,6 +10,9 @@ License:        BSD-3-Clause
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
+# https://github.com/hyprwm/hyprpicker/pull/148
+Patch0:         fix-missing-mutex-include.patch
+
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  pkgconfig(cairo)

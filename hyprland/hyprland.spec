@@ -29,6 +29,8 @@ BuildRequires:  pkgconfig(hyprlang)
 BuildRequires:  pkgconfig(hyprutils)
 BuildRequires:  pkgconfig(hyprland-protocols)
 BuildRequires:  pkgconfig(hyprwayland-scanner)
+BuildRequires:  pkgconfig(hyprwire)
+BuildRequires:  hyprwire-scanner
 BuildRequires:  pkgconfig(libdrm)
 BuildRequires:  pkgconfig(libinput)
 BuildRequires:  pkgconfig(muparser)
@@ -161,17 +163,17 @@ export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 %files
 %license LICENSE
 %doc README.md
+%config(noreplace) %{_datadir}/hypr/hyprland.conf
 %{_bindir}/[Hh]yprland
 %{_bindir}/hyprctl
-%config(noreplace) %{_datadir}/hypr/hyprland.conf
-%{_datadir}/bash-completion/completions/hyprctl
-%{_datadir}/fish/vendor_completions.d/hyprctl.fish
 %{_datadir}/hypr/
 %{_datadir}/wayland-sessions/hyprland.desktop
 %{_datadir}/xdg-desktop-portal/hyprland-portals.conf
-%{_datadir}/zsh/site-functions/_hyprctl
 %{_mandir}/man1/[Hh]yprland.1*
 %{_mandir}/man1/hyprctl.1*
+%{bash_completions_dir}/hypr*
+%{fish_completions_dir}/hypr*.fish
+%{zsh_completions_dir}/_hypr*
 
 %files devel
 %{_includedir}/hyprland/

@@ -9,6 +9,9 @@ License:        BSD-3-Clause
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
+# https://github.com/hyprwm/hyprtoolkit/pull/39
+Patch0:         fix-missing-climits-include.patch
+
 # https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
 ExcludeArch:    %{ix86}
 
