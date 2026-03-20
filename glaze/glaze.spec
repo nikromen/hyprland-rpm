@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/stephenberry/glaze
-Version:        6.2.0
+Version:        7.2.1
 %forgemeta
 
 Name:           glaze

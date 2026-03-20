@@ -1,6 +1,6 @@
 # rebuild comment
 %global forgeurl https://github.com/hyprwm/Hyprland
-Version:        0.52.2
+Version:        0.54.2
 %forgemeta
 
 Name:           hyprland

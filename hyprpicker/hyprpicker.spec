@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprpicker
-Version:        0.4.5
+Version:        0.4.6
 %forgemeta
 
 Name:           hyprpicker

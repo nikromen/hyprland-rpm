@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprtoolkit
-Version:        0.4.1
+Version:        0.5.3
 %forgemeta
 
 Name:           hyprtoolkit
@@ -68,7 +68,7 @@ developing applications that use %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libhyprtoolkit.so.4
+%{_libdir}/libhyprtoolkit.so.5
 %{_libdir}/libhyprtoolkit.so.%{version}
 
 

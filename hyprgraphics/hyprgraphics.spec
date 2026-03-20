@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprgraphics
-Version:        0.4.0
+Version:        0.5.0
 %forgemeta
 
 Name:           hyprgraphics
@@ -71,7 +71,7 @@ Development files for %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libhyprgraphics.so.3
+%{_libdir}/libhyprgraphics.so.4
 %{_libdir}/libhyprgraphics.so.%{version}
 
 

@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprland-guiutils
-Version:        0.2.0
+Version:        0.2.1
 %forgemeta
 
 Name:           hyprland-guiutils
