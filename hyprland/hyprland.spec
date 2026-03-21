@@ -166,6 +166,7 @@ export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 %config(noreplace) %{_datadir}/hypr/hyprland.conf
 %{_bindir}/[Hh]yprland
 %{_bindir}/hyprctl
+%{_bindir}/start-hyprland
 %{_datadir}/hypr/
 %{_datadir}/wayland-sessions/hyprland.desktop
 %{_datadir}/xdg-desktop-portal/hyprland-portals.conf
