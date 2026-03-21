@@ -3,6 +3,54 @@
 Version:        0.54.2
 %forgemeta
 
+# Used both at Hyprland package build time and at
+# runtime by hyprpm which compiles plugins from source
+%{lua:
+rpm.define("hyprland_build_deps " .. table.concat({
+    "cmake",
+    "gcc-c++",
+    "git-core",
+    "glaze-static",
+    "hyprwire-scanner",
+    "pkgconfig(aquamarine)",
+    "pkgconfig(cairo)",
+    "pkgconfig(egl)",
+    "pkgconfig(gbm)",
+    "pkgconfig(gio-2.0)",
+    "pkgconfig(gl)",
+    "pkgconfig(glesv2)",
+    "pkgconfig(hyprcursor)",
+    "pkgconfig(hyprgraphics)",
+    "pkgconfig(hyprlang)",
+    "pkgconfig(hyprland-protocols)",
+    "pkgconfig(hyprutils)",
+    "pkgconfig(hyprwayland-scanner)",
+    "pkgconfig(hyprwire)",
+    "pkgconfig(lcms2)",
+    "pkgconfig(libdrm)",
+    "pkgconfig(libinput)",
+    "pkgconfig(muparser)",
+    "pkgconfig(pango)",
+    "pkgconfig(pangocairo)",
+    "pkgconfig(pixman-1)",
+    "pkgconfig(re2)",
+    "pkgconfig(tomlplusplus)",
+    "pkgconfig(uuid)",
+    "pkgconfig(wayland-protocols)",
+    "pkgconfig(wayland-scanner)",
+    "pkgconfig(wayland-server)",
+    "pkgconfig(xcb)",
+    "pkgconfig(xcb-composite)",
+    "pkgconfig(xcb-errors)",
+    "pkgconfig(xcb-icccm)",
+    "pkgconfig(xcb-render)",
+    "pkgconfig(xcb-res)",
+    "pkgconfig(xcb-xfixes)",
+    "pkgconfig(xcursor)",
+    "pkgconfig(xkbcommon)",
+}, " "))
+}
+
 Name:           hyprland
 Release:        %autorelease
 Summary:        Hyprland is an independent, highly customizable, dynamic tiling Wayland compositor that doesn't sacrifice on its looks
@@ -11,47 +59,8 @@ License:        BSD-3-Clause
 URL:            %{forgeurl}
 Source0:        %{forgesource}
 
-BuildRequires:  cmake
-BuildRequires:  gcc-c++
-BuildRequires:  git-core
-BuildRequires:  glaze-static
+BuildRequires:  %{hyprland_build_deps}
 BuildRequires:  systemd-rpm-macros
-BuildRequires:  pkgconfig(aquamarine)
-BuildRequires:  pkgconfig(cairo)
-BuildRequires:  pkgconfig(egl)
-BuildRequires:  pkgconfig(gbm)
-BuildRequires:  pkgconfig(gio-2.0)
-BuildRequires:  pkgconfig(gl)
-BuildRequires:  pkgconfig(glesv2)
-BuildRequires:  pkgconfig(hyprcursor)
-BuildRequires:  pkgconfig(hyprgraphics)
-BuildRequires:  pkgconfig(hyprlang)
-BuildRequires:  pkgconfig(hyprutils)
-BuildRequires:  pkgconfig(hyprland-protocols)
-BuildRequires:  pkgconfig(hyprwayland-scanner)
-BuildRequires:  pkgconfig(hyprwire)
-BuildRequires:  hyprwire-scanner
-BuildRequires:  pkgconfig(libdrm)
-BuildRequires:  pkgconfig(libinput)
-BuildRequires:  pkgconfig(muparser)
-BuildRequires:  pkgconfig(pango)
-BuildRequires:  pkgconfig(pangocairo)
-BuildRequires:  pkgconfig(pixman-1)
-BuildRequires:  pkgconfig(re2)
-BuildRequires:  pkgconfig(tomlplusplus)
-BuildRequires:  pkgconfig(uuid)
-BuildRequires:  pkgconfig(wayland-protocols)
-BuildRequires:  pkgconfig(wayland-scanner)
-BuildRequires:  pkgconfig(wayland-server)
-BuildRequires:  pkgconfig(xcb)
-BuildRequires:  pkgconfig(xcb-composite)
-BuildRequires:  pkgconfig(xcb-errors)
-BuildRequires:  pkgconfig(xcb-icccm)
-BuildRequires:  pkgconfig(xcb-render)
-BuildRequires:  pkgconfig(xcb-res)
-BuildRequires:  pkgconfig(xcb-xfixes)
-BuildRequires:  pkgconfig(xcursor)
-BuildRequires:  pkgconfig(xkbcommon)
 BuildRequires:  udis86-devel
 
 Requires:       hyprland-guiutils
@@ -106,20 +115,22 @@ modern desktop environments.
 Summary:        Hyprland plugin manager
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
-Requires:       cmake
+# hyprpm clones Hyprland source and runs cmake to compile plugins, so it needs
+# the full set of build dependencies at runtime
+Requires:       %{hyprland_build_deps}
+Requires:       gcc
 Requires:       meson
 Requires:       cpio
 Requires:       pkgconfig
-Requires:       git-core
-Requires:       gcc-c++
-Requires:       gcc
-Requires:       mesa-libGLES-devel
 Requires:       glslang-devel
 
 %description    hyprpm
 Hyprland plugin manager (hyprpm) allows you to download, build, and install
-plugins for Hyprland at runtime. This subpackage contains the hyprpm binary
-and all necessary build dependencies for compiling Hyprland plugins.
+plugins for Hyprland at runtime.
+
+Note: This package pulls in a large number of development libraries because
+hyprpm compiles Hyprland from source to build plugins. Only install this
+package if you intend to use Hyprland plugins.
 
 
 %prep
