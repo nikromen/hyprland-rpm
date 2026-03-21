@@ -3,16 +3,7 @@ artifacts_dir := "artifacts"
 default_chroot := "fedora-43-x86_64"
 all_chroots := "fedora-43-x86_64 fedora-44-x86_64 fedora-rawhide-x86_64"
 
-# Dependency layers — packages within the same layer have no interdependencies
-# and can be built in parallel. Layers must be built sequentially.
-#
-#   L0: hyprutils  hyprwayland-scanner  hyprland-protocols  glaze  awww
-#        │              │                    │
-#   L1: hyprlang  aquamarine  hyprgraphics  hyprpicker  hyprpolkitagent  hyprwire
-#        │           │             │
-#   L2: hyprcursor  hypridle  hyprlock  hyprsunset  xdg-desktop-portal-hyprland  hyprtoolkit
-#                                                                                    │
-#   L3: hyprland                                                      hyprland-guiutils
+# dependency layers
 layer0 := "hyprutils hyprwayland-scanner hyprland-protocols glaze awww"
 layer1 := "hyprlang aquamarine hyprgraphics hyprpicker hyprpolkitagent hyprwire"
 layer2 := "hyprcursor hypridle hyprlock hyprsunset xdg-desktop-portal-hyprland hyprtoolkit"
@@ -74,7 +65,7 @@ _build-pkg package chroot:
     @echo "fixing permissions..."
     @podman unshare chown -R 0:0 {{artifacts_dir}}/{{chroot}}/{{package}} sources
 
-    @ls {{artifacts_dir}}/{{chroot}}/{{package}}/*.rpm >/dev/null 2>&1 || (echo "No RPMs found, build failed." && exit 1)
+    @ls {{artifacts_dir}}/{{chroot}}/{{package}}/*.rpm 2>/dev/null | grep -qv '\.src\.rpm$' || (echo "No binary RPMs found, build failed." && exit 1)
 
 # Build a single package for a given mock chroot
 mock-build package chroot=default_chroot:
@@ -178,6 +169,17 @@ copr-build package:
 copr-build-all:
     #!/usr/bin/env bash
     set -e
+
+    echo "Checking Copr packages..."
+    REMOTE=$(copr list-package-names nikromen/hyprland)
+    MISSING=()
+    for pkg in {{packages}}; do
+        echo "$REMOTE" | grep -qx "$pkg" || MISSING+=("$pkg")
+    done
+    if [ ${#MISSING[@]} -gt 0 ]; then
+        echo "ERROR: packages not in Copr: ${MISSING[*]}"
+        exit 1
+    fi
 
     PREV_BATCH_ID=""
 
