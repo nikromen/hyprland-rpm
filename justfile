@@ -227,11 +227,8 @@ check-versions:
             continue
         fi
 
-        LATEST_VER=$(curl -sL "$UPSTREAM_URL/releases" | grep -m1 'href.*releases/tag' | grep -oP 'releases/tag/v?\K[0-9.]+' | head -1)
-
-        if [ -z "$LATEST_VER" ]; then
-            LATEST_VER=$(curl -sL "$UPSTREAM_URL/tags" | grep -m1 'href.*releases/tag' | grep -oP 'releases/tag/v?\K[0-9.]+' | head -1)
-        fi
+        LATEST_VER=$(git ls-remote --tags --sort=-v:refname "$UPSTREAM_URL.git" 2>/dev/null \
+            | grep -oP 'refs/tags/v?\K[0-9.]+$' | head -1)
 
         if [ -z "$LATEST_VER" ]; then
             echo "$pkg: could not fetch upstream version"
