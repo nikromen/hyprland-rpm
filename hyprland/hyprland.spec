@@ -126,6 +126,10 @@ and all necessary build dependencies for compiling Hyprland plugins.
 %forgeautosetup -p1
 
 %build
+export GIT_TAG=v%{version}
+export GIT_COMMIT_MESSAGE="tag v%{version} at %{forgeurl} - Fedora %{fedora} RPM"
+export GIT_DIRTY=clean
+
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DNO_SYSTEMD=OFF \
