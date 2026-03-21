@@ -1,12 +1,11 @@
 # rebuild comment
 %global forgeurl https://github.com/hyprwm/Hyprland
 Version:        0.54.2
-%forgemeta
 
 # Used both at Hyprland package build time and at
 # runtime by hyprpm which compiles plugins from source
 %{lua:
-rpm.define("hyprland_build_deps " .. table.concat({
+hyprland_shared_deps = {
     "cmake",
     "gcc-c++",
     "git-core",
@@ -48,7 +47,7 @@ rpm.define("hyprland_build_deps " .. table.concat({
     "pkgconfig(xcb-xfixes)",
     "pkgconfig(xcursor)",
     "pkgconfig(xkbcommon)",
-}, " "))
+}
 }
 
 Name:           hyprland
@@ -57,9 +56,9 @@ Summary:        Hyprland is an independent, highly customizable, dynamic tiling 
 
 License:        BSD-3-Clause
 URL:            %{forgeurl}
-Source0:        %{forgesource}
+Source0:        %{forgeurl}/releases/download/v%{version}/source-v%{version}.tar.gz
 
-BuildRequires:  %{hyprland_build_deps}
+%{lua: for _, d in ipairs(hyprland_shared_deps) do print("BuildRequires:  "..d.."\n") end}
 BuildRequires:  systemd-rpm-macros
 BuildRequires:  udis86-devel
 
@@ -117,7 +116,7 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
 # hyprpm clones Hyprland source and runs cmake to compile plugins, so it needs
 # the full set of build dependencies at runtime
-Requires:       %{hyprland_build_deps}
+%{lua: for _, d in ipairs(hyprland_shared_deps) do print("Requires:       "..d.."\n") end}
 Requires:       gcc
 Requires:       meson
 Requires:       cpio
@@ -134,13 +133,12 @@ package if you intend to use Hyprland plugins.
 
 
 %prep
-%forgeautosetup -p1
+%autosetup -n hyprland-source -p1
+rm -rf subprojects/udis86
+rm -rf subprojects/hyprland-protocols
+rm -rf subprojects/tracy
 
 %build
-export GIT_TAG=v%{version}
-export GIT_COMMIT_MESSAGE="tag v%{version} at %{forgeurl} - Fedora %{fedora} RPM"
-export GIT_DIRTY=clean
-
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DNO_SYSTEMD=OFF \
