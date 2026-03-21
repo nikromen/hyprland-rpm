@@ -114,6 +114,7 @@ Requires:       git-core
 Requires:       gcc-c++
 Requires:       gcc
 Requires:       mesa-libGLES-devel
+Requires:       glslang-devel
 
 %description    hyprpm
 Hyprland plugin manager (hyprpm) allows you to download, build, and install
@@ -124,30 +125,13 @@ and all necessary build dependencies for compiling Hyprland plugins.
 %prep
 %forgeautosetup -p1
 
-# Create a minimal pkg-config file for udis86 since Fedora doesn't ship one
-cat > udis86.pc << 'EOF'
-prefix=/usr
-exec_prefix=${prefix}
-libdir=${exec_prefix}/lib64
-includedir=${prefix}/include
-
-Name: udis86
-Description: Disassembler Library for x86 and x86-64
-Version: 1.7.2
-Libs: -L${libdir} -ludis86
-Cflags: -I${includedir}
-EOF
-
-
 %build
-export PKG_CONFIG_PATH="${PWD}:${PKG_CONFIG_PATH}"
 %cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DNO_SYSTEMD=OFF \
     -DNO_XWAYLAND=OFF \
     -DNO_UWSM=OFF \
     -DNO_HYPRPM=OFF \
-    -DUSE_SYSTEM_UDIS86=ON \
     -DBUILD_TESTING=OFF
 %cmake_build
 
