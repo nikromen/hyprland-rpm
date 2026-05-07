@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprlock
-Version:        0.9.2
+Version:        0.9.5
 %forgemeta
 
 Name:           hyprlock

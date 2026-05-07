@@ -1,5 +1,5 @@
 %global forgeurl https://codeberg.org/LGFae/awww
-Version:        0.11.2
+Version:        0.12.1
 %global tag v%{version}
 %forgemeta
 
@@ -48,18 +48,19 @@ cargo vendor
 
 
 %install
-install -Dpm 0755 target/rpm/swww %{buildroot}%{_bindir}/swww
-install -Dpm 0755 target/rpm/swww-daemon %{buildroot}%{_bindir}/swww-daemon
+install -Dpm 0755 target/rpm/awww %{buildroot}%{_bindir}/awww
+install -Dpm 0755 target/rpm/awww-daemon %{buildroot}%{_bindir}/awww-daemon
 
 # Install man pages
-install -Dpm 0644 doc/generated/swww.1 %{buildroot}%{_mandir}/man1/swww.1
-install -Dpm 0644 doc/generated/swww-daemon.1 %{buildroot}%{_mandir}/man1/swww-daemon.1
-
-# Install shell completions
-install -Dpm 0644 completions/swww.bash %{buildroot}%{_datadir}/bash-completion/completions/swww
-install -Dpm 0644 completions/swww.fish %{buildroot}%{_datadir}/fish/vendor_completions.d/swww.fish
-install -Dpm 0644 completions/_swww %{buildroot}%{_datadir}/zsh/site-functions/_swww
-install -Dpm 0644 completions/swww.elv %{buildroot}%{_datadir}/elvish/lib/swww.elv
+install -Dpm 0644 doc/generated/awww.1 %{buildroot}%{_mandir}/man1/awww.1
+install -Dpm 0644 doc/generated/awww-daemon.1 %{buildroot}%{_mandir}/man1/awww-daemon.1
+install -Dpm 0644 doc/generated/awww-clear.1 %{buildroot}%{_mandir}/man1/awww-clear.1
+install -Dpm 0644 doc/generated/awww-clear-cache.1 %{buildroot}%{_mandir}/man1/awww-clear-cache.1
+install -Dpm 0644 doc/generated/awww-img.1 %{buildroot}%{_mandir}/man1/awww-img.1
+install -Dpm 0644 doc/generated/awww-kill.1 %{buildroot}%{_mandir}/man1/awww-kill.1
+install -Dpm 0644 doc/generated/awww-pause.1 %{buildroot}%{_mandir}/man1/awww-pause.1
+install -Dpm 0644 doc/generated/awww-query.1 %{buildroot}%{_mandir}/man1/awww-query.1
+install -Dpm 0644 doc/generated/awww-restore.1 %{buildroot}%{_mandir}/man1/awww-restore.1
 
 
 %check
@@ -70,14 +71,17 @@ install -Dpm 0644 completions/swww.elv %{buildroot}%{_datadir}/elvish/lib/swww.e
 %license LICENSE
 %license LICENSE.dependencies
 %doc README.md CHANGELOG.md
-%{_bindir}/swww
-%{_bindir}/swww-daemon
-%{_mandir}/man1/swww.1*
-%{_mandir}/man1/swww-daemon.1*
-%{_datadir}/bash-completion/completions/swww
-%{_datadir}/fish/vendor_completions.d/swww.fish
-%{_datadir}/zsh/site-functions/_swww
-%{_datadir}/elvish/lib/swww.elv
+%{_bindir}/awww
+%{_bindir}/awww-daemon
+%{_mandir}/man1/awww.1*
+%{_mandir}/man1/awww-daemon.1*
+%{_mandir}/man1/awww-clear.1*
+%{_mandir}/man1/awww-clear-cache.1*
+%{_mandir}/man1/awww-img.1*
+%{_mandir}/man1/awww-kill.1*
+%{_mandir}/man1/awww-pause.1*
+%{_mandir}/man1/awww-query.1*
+%{_mandir}/man1/awww-restore.1*
 
 
 %changelog

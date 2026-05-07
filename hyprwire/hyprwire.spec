@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprwire
-Version:        0.3.0
+Version:        0.3.1
 %forgemeta
 
 Name:           hyprwire

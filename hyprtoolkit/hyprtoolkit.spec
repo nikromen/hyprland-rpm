@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprtoolkit
-Version:        0.5.3
+Version:        0.5.4
 %forgemeta
 
 Name:           hyprtoolkit
@@ -8,9 +8,6 @@ Summary:        Modern C++ Wayland-native GUI toolkit
 License:        BSD-3-Clause
 URL:            %{forgeurl}
 Source0:        %{forgesource}
-
-# https://github.com/hyprwm/hyprtoolkit/pull/39
-Patch0:         fix-missing-climits-include.patch
 
 # https://fedoraproject.org/wiki/Changes/EncourageI686LeafRemoval
 ExcludeArch:    %{ix86}

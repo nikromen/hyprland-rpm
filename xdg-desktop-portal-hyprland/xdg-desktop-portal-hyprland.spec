@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/xdg-desktop-portal-hyprland
-Version:        1.3.11
+Version:        1.3.12
 %forgemeta
 
 Name:           xdg-desktop-portal-hyprland

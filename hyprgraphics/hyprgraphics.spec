@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/hyprgraphics
-Version:        0.5.0
+Version:        0.5.1
 %forgemeta
 
 Name:           hyprgraphics
@@ -24,6 +24,8 @@ BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(librsvg-2.0)
 BuildRequires:  pkgconfig(libwebp)
 BuildRequires:  pkgconfig(pangocairo)
+BuildRequires:  pkgconfig(glesv2)
+BuildRequires:  pkgconfig(libdrm)
 BuildRequires:  pkgconfig(pixman-1)
 
 # ExcludeArch: %{ix86} since C++26 and i686 are being phased out

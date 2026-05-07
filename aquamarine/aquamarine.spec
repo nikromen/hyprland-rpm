@@ -1,5 +1,5 @@
 %global forgeurl https://github.com/hyprwm/aquamarine
-Version:        0.10.0
+Version:        0.11.0
 %forgemeta
 
 Name:           aquamarine
@@ -73,7 +73,7 @@ developing applications that use %{name}.
 %files
 %license LICENSE
 %doc README.md
-%{_libdir}/libaquamarine.so.9
+%{_libdir}/libaquamarine.so.10
 %{_libdir}/libaquamarine.so.%{version}
 
 

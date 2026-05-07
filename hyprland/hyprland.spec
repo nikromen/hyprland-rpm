@@ -1,6 +1,6 @@
 # rebuild comment
 %global forgeurl https://github.com/hyprwm/Hyprland
-Version:        0.54.2
+Version:        0.54.3
 
 # Used both at Hyprland package build time and at
 # runtime by hyprpm which compiles plugins from source
